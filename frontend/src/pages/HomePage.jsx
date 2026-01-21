@@ -42,6 +42,13 @@ function HomePage() {
         <Loader2 className="animate-spin" />
       </div>
     );
+  // Fungsi pembersih HTML yang aman
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* --- NAVBAR --- */}
@@ -102,7 +109,7 @@ function HomePage() {
             <p className="text-center text-gray-500 py-10">No posts available yet.</p>
           ) : (
             posts.map((post) => (
-              <div key={post._id} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all flex flex-col md:flex-row gap-6 group cursor-pointer">
+              <div key={post._id} onClick={() => navigate(`/post/${post._id}`)} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all flex flex-col md:flex-row gap-6 group cursor-pointer">
                 {/* Thumbnail */}
                 <div className="w-full md:w-48 h-48 bg-gray-100 rounded-xl overflow-hidden shrink-0">
                   <img src={`https://source.unsplash.com/random/400x300?${post.category}`} alt="Cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -118,8 +125,9 @@ function HomePage() {
 
                   <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors line-clamp-2">{post.title}</h3>
 
-                  {/* Convert HTML content to plain text preview (limit 150 chars) */}
-                  <p className="text-gray-600 mb-4 line-clamp-2">{post.content.replace(/<[^>]+>/g, "")}</p>
+                  {/* Convert HTML content to plain text preview  */}
+                  <p className="text-gray-600 mb-4 line-clamp-2">{stripHtml(post.content)}</p>
+                  {/* <p className="text-gray-600 mb-4 line-clamp-2">{post.content.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ")}</p> */}
 
                   {/* Author Info */}
                   <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-50">

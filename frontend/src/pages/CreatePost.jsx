@@ -18,15 +18,19 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation
     if (!title || !content) {
       return toast.error("Title and Content are required!");
     }
 
     setLoading(true);
-    try {
-      // Convert tags string "react, node" -> array ["react", "node"]
-      const tagsArray = tags.split(",").map((tag) => tag.trim());
 
+    try {
+      // Logic Tags:
+      const tagsArray = tags ? tags.split(",").map((tag) => tag.trim()) : [];
+
+      // (JSON Object)
       const postData = {
         title,
         content,
@@ -40,12 +44,43 @@ function CreatePost() {
       toast.success("Post published successfully!");
       navigate("/");
     } catch (error) {
-      console.error(error);
+      console.error("Error creating post:", error);
       toast.error("Failed to publish post.");
     } finally {
       setLoading(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!title || !content) {
+  //     return toast.error("Title and Content are required!");
+  //   }
+
+  //   setLoading(true);
+  //   try {
+  //     // Convert tags string "react, node" -> array ["react", "node"]
+  //     const tagsArray = tags.split(",").map((tag) => tag.trim());
+
+  //     const postData = {
+  //       title,
+  //       content,
+  //       category: category || "General",
+  //       tags: tagsArray,
+  //     };
+
+  //     // Send to Backend
+  //     await API.post("/posts", postData);
+
+  //     toast.success("Post published successfully!");
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Failed to publish post.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
