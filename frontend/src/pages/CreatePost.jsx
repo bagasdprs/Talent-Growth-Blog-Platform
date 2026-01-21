@@ -15,6 +15,7 @@ function CreatePost() {
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("General");
   const [tags, setTags] = useState([]);
+  const [image, setImage] = useState("https://placehold.co/600x400");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +35,7 @@ function CreatePost() {
       const postData = {
         title,
         content,
+        image,
         category: category || "General",
         tags: tagsArray,
       };
@@ -144,6 +146,19 @@ function CreatePost() {
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-50 transition-all"
               />
             </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Cover Image URL</label>
+            <input
+              type="text"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Paste link gambar (contoh: https://images.unsplash.com/...)"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              required
+            />
+            <p className="text-xs text-gray-500 mt-1">Copy link from Unsplash or another image</p>
           </div>
 
           {/* 4. Content Editor  */}
